@@ -7,13 +7,16 @@ class Vision(object):
 
     def processFrame(self,frame):
 
-        frame = frame[40:201]
+        frame2 = frame[40:201].copy()
 
-        frame[frame == 0] = 2000
+        frame2[frame2 == 0] = 20000
 
-        bin = cv2.threshold(frame,1000,1,cv2.THRESH_BINARY)
+        _,bin = cv2.threshold(frame2,1000,1,cv2.THRESH_BINARY_INV)
+        
+        ratio = np.count_nonzero(bin)/bin.size
+        print(ratio)
 
-        if np.count_nonzero(bin)/bin.size > self.threshold:
+        if ratio > self.threshold:
             return True
         else:
             return False
