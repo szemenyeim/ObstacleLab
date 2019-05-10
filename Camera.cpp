@@ -40,9 +40,9 @@ Camera::Camera()
 Camera::~Camera()
 {
     depth.stop();
-	depth.destroy();
-	device.close();
-	OpenNI::shutdown();
+    depth.destroy();
+    device.close();
+    OpenNI::shutdown();
 }
 
 cv::Mat Camera::getDepth()
@@ -53,20 +53,20 @@ cv::Mat Camera::getDepth()
     if (rc != STATUS_OK)
     {
         printf("Wait failed! (timeout is %d ms)\n%s\n", SAMPLE_READ_WAIT_TIMEOUT, OpenNI::getExtendedError());
-        continue;
+        return cv::Mat();
     }
 
     rc = depth.readFrame(&frame);
     if (rc != STATUS_OK)
     {
         printf("Read failed!\n%s\n", OpenNI::getExtendedError());
-        continue;
+        return cv::Mat();
     }
 
     if (frame.getVideoMode().getPixelFormat() != PIXEL_FORMAT_DEPTH_1_MM && frame.getVideoMode().getPixelFormat() != PIXEL_FORMAT_DEPTH_100_UM)
     {
         printf("Unexpected frame format\n");
-        continue;
+        return cv::Mat();
     }
     if (frame.isValid())
     {
@@ -78,7 +78,7 @@ cv::Mat Camera::getDepth()
     }
     else
     {
-        cerr << "ERROR: Cannot read depth frame from depth stream. Quitting..." << endl;
+        std::cerr << "ERROR: Cannot read depth frame from depth stream. Quitting..." << std::endl;
         return cv::Mat();
     }
 }

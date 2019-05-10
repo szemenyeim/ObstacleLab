@@ -6,7 +6,7 @@ Car::Car(int motorPin, int servoPin)
 {
     if (gpioInitialise() < 0)
     {
-        std::cout << "Init failed" << endl;
+        std::cout << "Init failed" << std::endl;
         exit(0);
     }
     gpioSetMode(motorPin, PI_OUTPUT);
@@ -42,7 +42,7 @@ void Car::reset()
 
 void Car::steer(double amount)
 {
-    int pwm = 1500 + std::min(1,std::max(-1,amount)) * 200;
+    int pwm = 1500 + std::min(1.0,std::max(-1.0,amount)) * 200;
     gpioServo(ServoPin,pwm);
 
 }
