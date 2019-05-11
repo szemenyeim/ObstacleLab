@@ -5,13 +5,10 @@
 class Camera
 {
 protected:
-    openni::Device            m_device;
-    openni::VideoStream        m_depthStream;
-    openni::VideoStream        m_colorStream;
-    openni::VideoFrameRef    m_depthFrame;
-    openni::VideoFrameRef    m_colorFrame;
-    bool m_flagInitSuccessful;
-    bool m_flagShowImage;
+    openni::Status rc;
+	openni::Device device;
+	openni::VideoStream depth;
+	openni::VideoFrameRef frame;
 public:
 	Camera();
     ~Camera();
