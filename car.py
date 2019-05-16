@@ -28,9 +28,10 @@ class Car(object):
         print("Car break")
         time.sleep(1)
         self.motor.ChangeDutyCycle(0)
+        self.servo.ChangeDutyCycle(0)
         print("Break release")
 
     def steer(self,amount):
-        amount = 7.5 + (max(-1,min(1,amount)) + 1)
+        amount = 7.5 + (max(-1,min(1,amount)))
         self.servo.ChangeDutyCycle(amount)
         print("Car steer: ",amount)

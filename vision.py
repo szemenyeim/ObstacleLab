@@ -7,16 +7,24 @@ class Vision(object):
 
     def processFrame(self,frame):
 
-        frame2 = frame[40:201].copy()
+        frame2 = frame[:161].copy()
 
         frame2[frame2 == 0] = 20000
 
         _,bin = cv2.threshold(frame2,1000,1,cv2.THRESH_BINARY_INV)
         
         ratio = np.count_nonzero(bin)/bin.size
-        print(ratio)
+        
+        cv2.imshow("bin",bin*65000)
+        
+        m = cv2.moments(bin,True)
 
         if ratio > self.threshold:
-            return True
+            x = m['m10']/m['m00']
+            if x < 100:
+                return 2
+            elif x > 220:
+                return 3
+            return 1;            
         else:
-            return False
+            return 0

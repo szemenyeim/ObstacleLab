@@ -46,4 +46,4 @@ class Camera(object):
         img = np.frombuffer(cframe_data, dtype=np.uint8)
         img.shape = (240, 320, 3)
 
-        return img, depth
+        return np.fliplr(img), np.fliplr(depth)
