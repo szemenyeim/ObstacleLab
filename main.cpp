@@ -9,8 +9,9 @@ int main()
 	Car car(18, 12);
 	Camera camera;
 
-	car.start();
+        //car.start();
 	bool started = true;
+        int steered = 0;
 
 	while (true)
 	{
@@ -22,72 +23,89 @@ int main()
 			return -1;
 		}
 
-		switch (findObstacle(depth, 0.1))
+                int ret = findObstacle(depth, 0.1);
+
+                //std::cout << ret << std::endl;
+
+                /*switch (ret)
 		{
 		case 0:
-			if (!started)
+                        if (!started || steered != 0)
 			{
-				car.start();
+                                std::cout << "Started" << std::endl;
+                                //car.start();
 				started = true;
+                                steered = 0;
 			}
 			break;
 		case 1:
 			if (started)
 			{
-				car.stop();
+                                std::cout << "Stopped" << std::endl;
+                                //car.stop();
 				started = false;
+                                steered = 0;
 			}
 			break;
 		case 2:
-			if (started)
+                        if (started && steered != -1)
 			{
-				car.steer(-1);
+                                std::cout << "Steered: -1" << std::endl;
+                                //car.steer(-1);
+                                steered = -1;
 			}
 			break;
 		case 3:
-			if (started)
+                        if (started && steered != 1)
 			{
-				car.steer(1);
+                                std::cout << "Steered: 1" << std::endl;
+                                //car.steer(1);
+                                steered = 1;
 			}
 			break;
-		}
+                }*/
 
 		char key = cv::waitKey(1);
 
 		switch (key)
 		{
 		case 'w':
-			if (!started)
+                        if (!started || steered != 0)
 			{
+                                std::cout << "Started" << std::endl;
 				car.start();
 				started = true;
+                                steered = 0;
 			}
 			break;
 		case 's':
 			if (started)
 			{
+                                std::cout << "Stopped" << std::endl;
 				car.stop();
 				started = false;
+                                steered = 0;
 			}
 			break;
 		case 'a':
-			if (started)
+                        if (started && steered != -1)
 			{
+                                std::cout << "Steer" << std::endl;
 				car.steer(-1);
+                                steered = -1;
 			}
 			break;
 		case 'd':
-			if (started)
+                        if (started && steered != 1)
 			{
+                                std::cout << "Steer" << std::endl;
 				car.steer(1);
+                                steered = 1;
 			}
 			break;
-		default:
-			if (started)
-			{
-				car.reset();
-				return 0;
-			}
+                case 27:
+                        car.reset();
+                        return 0;
 			break;
 		}
 	}

@@ -6,35 +6,41 @@ using namespace openni;
 Camera::Camera()
 {
     rc = OpenNI::initialize();
-	if (rc != STATUS_OK)
-	{
-		printf("Initialize failed\n%s\n", OpenNI::getExtendedError());
-		exit(-1);
-	}
+    if (rc != STATUS_OK)
+    {
+            printf("Initialize failed\n%s\n", OpenNI::getExtendedError());
+            exit(-1);
+    }
 
-	rc = device.open(ANY_DEVICE);
-	if (rc != STATUS_OK)
-	{
-		printf("Couldn't open device\n%s\n", OpenNI::getExtendedError());
-		exit(-1);
-	}
+    rc = device.open(ANY_DEVICE);
+    if (rc != STATUS_OK)
+    {
+            printf("Couldn't open device\n%s\n", OpenNI::getExtendedError());
+            exit(-1);
+    }
 
-	if (device.getSensorInfo(SENSOR_DEPTH) != NULL)
-	{
-		rc = depth.create(device, SENSOR_DEPTH);
-		if (rc != STATUS_OK)
-		{
-			printf("Couldn't create depth stream\n%s\n", OpenNI::getExtendedError());
-		    exit(-1);
-		}
-	}
+    if (device.getSensorInfo(SENSOR_DEPTH) != NULL)
+    {
+            rc = depth.create(device, SENSOR_DEPTH);
+            if (rc != STATUS_OK)
+            {
+                    printf("Couldn't create depth stream\n%s\n", OpenNI::getExtendedError());
+                exit(-1);
+            }
+    }
 
-	rc = depth.start();
-	if (rc != STATUS_OK)
-	{
-		printf("Couldn't start the depth stream\n%s\n", OpenNI::getExtendedError());
-		exit(-1);
-	}
+    VideoMode mode = depth.getVideoMode();
+    mode.setResolution(320,240);
+    mode.setFps(30);
+    depth.setVideoMode(mode);
+
+    rc = depth.start();
+    if (rc != STATUS_OK)
+    {
+            printf("Couldn't start the depth stream\n%s\n", OpenNI::getExtendedError());
+            exit(-1);
+    }
+    std::cout << "OpenNI init success" << std::endl;
 }
 
 Camera::~Camera()
