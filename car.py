@@ -18,19 +18,19 @@ class Car(object):
         print("Car reset")
 
     def start(self):
-        self.motor.start(5.05)
-        self.servo.start(5.0)
+        self.motor.start(7.65)
+        self.servo.start(7.5)
         print("Car start")
 
     def stop(self):
-        self.motor.ChangeDutyCycle(4.0)
-        self.servo.ChangeDutyCycle(5.0)
+        self.motor.ChangeDutyCycle(6.5)
+        self.servo.ChangeDutyCycle(7.5)
         print("Car break")
         time.sleep(1)
         self.motor.ChangeDutyCycle(0)
         print("Break release")
 
     def steer(self,amount):
-        amount = 5 + (max(-1,min(1,amount)) + 1) * 2.5
+        amount = 7.5 + (max(-1,min(1,amount)) + 1)
         self.servo.ChangeDutyCycle(amount)
         print("Car steer: ",amount)
